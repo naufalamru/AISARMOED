@@ -1,7 +1,8 @@
+import streamlit as st
 import requests
 
-OPENROUTER_API_KEY=st.secrets["OPENROUTER_API_KEY"],
-OPENROUTER_URL=st.secrets["OPENROUTER_URL"]
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+OPENROUTER_URL = st.secrets["OPENROUTER_URL"]
 
 def ask_ai(prompt):
 
