@@ -9,7 +9,7 @@ def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
     prompt = f"""
     no need to greet
     Always use Bahasa Indonesia
-    Anda adalah pelatih MMA profesional.
+    Anda adalah pelatih MMA profesional. Anda memberikan saran kepada Member Camp Satria Moeda
 
     Data user:
     - Goal: {goal}
@@ -43,7 +43,7 @@ def generate_progress_insight(df):
     prompt = f"""
     no need greetings
     Always use Bahasa Indonesia
-    Anda adalah AI physique training analyst.
+    Anda adalah AI physique training analyst. Anda berbicara kepada member Camp Satria Moeda
 
     Data terakhir:
     - Goal: {latest['goal']}
