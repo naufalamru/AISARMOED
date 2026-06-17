@@ -1,12 +1,13 @@
 import requests
 import streamlit as st
 
-try:
-    api_key = st.secrets["OPENROUTER_API_KEY"]
-    st.success("API key ditemukan")
-except Exception as e:
-    st.error(str(e))
+from openai import OpenAI
 
+
+client = OpenAI(
+    api_key=st.secrets["OPENROUTER_API_KEY"],
+    base_url="https://openrouter.ai/api/v1"
+)
 def ask_ai(prompt):
 
     headers = {
