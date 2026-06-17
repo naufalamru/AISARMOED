@@ -1,5 +1,11 @@
 import requests
+import streamlit as st
 
+try:
+    api_key = st.secrets["OPENROUTER_API_KEY"]
+    st.success("API key ditemukan")
+except Exception as e:
+    st.error(str(e))
 
 def ask_ai(prompt):
 
