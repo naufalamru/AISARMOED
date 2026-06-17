@@ -106,13 +106,6 @@ def load_model():
 
 model = load_model()
 
-
-try:
-    api_key = st.secrets["OPENROUTER_API_KEY"]
-    st.success("API key ditemukan")
-except Exception as e:
-    st.error(str(e))
-
 # =========================
 # SESSION
 # =========================
