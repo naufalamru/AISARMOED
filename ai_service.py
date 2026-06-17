@@ -6,7 +6,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key=st.secrets["OPENROUTER_API_KEY"],
-    base_url="https://openrouter.ai/api/v1"
+    base_url=st.secrets["OPENROUTER_URL"]
 )
 def ask_ai(prompt):
 
