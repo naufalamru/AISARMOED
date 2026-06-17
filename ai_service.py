@@ -1,13 +1,8 @@
 import requests
-import streamlit as st
 
-from openai import OpenAI
+OPENROUTER_API_KEY=st.secrets["OPENROUTER_API_KEY"],
+OPENROUTER_URL=st.secrets["OPENROUTER_URL"]
 
-
-client = OpenAI(
-    api_key=st.secrets["OPENROUTER_API_KEY"],
-    base_url=st.secrets["OPENROUTER_URL"]
-)
 def ask_ai(prompt):
 
     headers = {
