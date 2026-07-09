@@ -7,7 +7,7 @@ from ai_service import ask_ai
 def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
 
     prompt = f"""
-    no need to greet
+    no need to greet, straight to the point
     Always use Bahasa Indonesia
     Anda adalah pelatih MMA profesional.
 
@@ -83,6 +83,7 @@ def generate_weekly_plan(goal, fatigue):
     sampai Day 7
 
     Sesuaikan intensitas dengan fatigue.
+    Selalu himbau user agar melakukan konsultasi lanjutan dengan pelatih di camp.
     """
 
     response = ask_ai(prompt)
