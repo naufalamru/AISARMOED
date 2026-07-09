@@ -94,6 +94,58 @@ div[data-baseweb="select"] * {
     color: black !important;
 }
 
+            /* Semua teks putih */
+html, body, [class*="css"] {
+    color: white !important;
+}
+
+/* Markdown */
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown li,
+.stMarkdown strong,
+.stMarkdown h1,
+.stMarkdown h2,
+.stMarkdown h3,
+.stMarkdown h4 {
+    color: white !important;
+}
+
+/* Info box */
+[data-testid="stAlert"] * {
+    color: white !important;
+}
+
+/* Success box */
+.stSuccess * {
+    color: white !important;
+}
+
+/* Info box */
+.stInfo * {
+    color: white !important;
+}
+
+/* Warning box */
+.stWarning * {
+    color: white !important;
+}
+
+/* Error box */
+.stError * {
+    color: white !important;
+}
+
+.stButton > button {
+    background-color: #ff1a1a;
+    color: white;
+    border-radius: 12px;
+    border: none;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+}
+            
 </style>
 """, unsafe_allow_html=True)
 
@@ -190,15 +242,105 @@ st.sidebar.markdown(f"""
     <h3>Satria Moeda</h3>
 </div>
 """, unsafe_allow_html=True)
-
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
 st.sidebar.markdown("---")
-menu = st.sidebar.radio("Navigation", ["Training Plan", "Progress", "Profile", "Logout"])
+menu = st.sidebar.radio(
+    "Navigation",
+    ["Home", "Training Plan", "Progress", "Profile", "Logout"],
+    index=["Home", "Training Plan", "Progress", "Profile", "Logout"].index(
+        st.session_state.page
+    )
+)
+
+st.session_state.page = menu
 st.sidebar.markdown("---")
 st.sidebar.write(f"👤 {user['username']}")
 
 # =========================
 # HOME
 # =========================
+if menu == "Home":
+
+    st.markdown(f"""
+    <div style='text-align:center; margin-top:20px;'>
+        <img src="data:image/png;base64,{logo_base64}" width="140">
+        <h1>MMA AI Assistant</h1>
+        <p style='color:gray;'>Smart Training Recommendation System</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    st.subheader("📖 Cara Menggunakan Aplikasi")
+
+    st.info("""
+    Aplikasi ini direkomendasikan digunakan SETELAH Anda menyelesaikan sesi latihan.
+    
+    Tujuan sistem adalah membantu mengevaluasi kondisi tubuh, tingkat kelelahan,
+    dan memberikan rekomendasi pemulihan maupun latihan berikutnya.
+    """)
+
+    st.markdown("""
+    ### Langkah Penggunaan
+
+    **1. Selesaikan latihan terlebih dahulu**
+    - MMA
+    - Boxing
+    - Muay Thai
+    - BJJ
+    - Wrestling
+    - Running
+    - Strength Training
+    - HIIT
+
+    **2. Masukkan data latihan**
+    - Jenis latihan
+    - Durasi latihan
+    - Jam tidur
+    - Berat badan
+    - Tinggi badan
+
+    **3. Klik tombol Generate**
+    
+    Sistem akan menghitung:
+    - Fatigue Score
+    - Training Load
+    - Estimasi Kalori
+    - BMI
+    - Heart Rate Estimation
+    - Performance Score
+
+    **4. Baca rekomendasi AI Coach**
+
+    AI Coach akan memberikan:
+    - Evaluasi kondisi tubuh
+    - Risiko overtraining
+    - Saran recovery
+    - Rekomendasi latihan berikutnya
+
+    **5. Pantau perkembanganmu pada menu Progress**
+    """)
+
+    st.markdown("---")
+
+    st.success("""
+    💡 Tips:
+    Semakin rutin Anda menginput data setelah latihan,
+    semakin baik sistem dalam membantu memantau progres latihan Anda.
+    """)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1,2,1])
+
+    with col2:
+        if st.button(
+        "Let's Start !",
+        use_container_width=True
+    ):
+         st.session_state.page = "Training Plan"
+         st.rerun()
 if menu == "Training Plan":
 
     st.markdown(f"""
