@@ -7,31 +7,28 @@ from ai_service import ask_ai
 def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
 
    prompt = f"""
-Data Atlet:
+   Data Atlet:
 
-Goal: {goal}
-Fatigue Score: {fatigue}/100
-Training Load: {load}
-Sleep Hours: {sleep}
-BMI: {bmi}
-Average Heart Rate: {hr_mean}
+   Goal: {goal}
+   Fatigue Score: {fatigue}/100
+   Training Load: {load}
+   Sleep Hours: {sleep}
+   BMI: {bmi}
+   Average Heart Rate: {hr_mean}
 
-Tugas:
-1. Analisis kondisi atlet.
-2. Jelaskan risiko yang mungkin muncul.
-3. Berikan rekomendasi sesi latihan berikutnya.
+   Tugas:
+   1. Analisis kondisi atlet.
+   2. Jelaskan risiko yang mungkin muncul.
+   3. Berikan rekomendasi sesi latihan berikutnya.
 
-Format:
+   Format:
 
-📊 Analisis Kondisi
-...
+   📊 Analisis Kondisi
+   ...
 
-⚠️ Risiko
-...
-
-🥊 Rekomendasi Latihan
-...
-"""
+   ⚠️ Risiko
+   ...
+   """
 
     return ask_ai(prompt)
 
