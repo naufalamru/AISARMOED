@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "openrouter/free",
+        "model": "tencent/hy3:free",
         "messages": [
             {
                 "role": "system",
