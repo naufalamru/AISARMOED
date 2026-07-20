@@ -31,17 +31,13 @@ def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
     - Jika fatigue 60–80, kurangi volume latihan.
     - Jika fatigue < 40, atlet siap meningkatkan intensitas.
     - Jika tidur < 6 jam, prioritaskan pemulihan.
-    - Jawaban maksimal 200 kata.
 
     Format:
 
-    📊 Analisis Kondisi
+    📊 Analisis Kondisi :
     ...
 
-    ⚠️ Risiko
-    ...
-
-    🥊 Rekomendasi Latihan
+    ⚠️ Risiko :
     ...
     """
 
