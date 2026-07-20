@@ -44,38 +44,38 @@ def generate_progress_insight(df):
     latest = df.iloc[-1]
 
     prompt = f"""
-Anda adalah Performance Analyst untuk atlet MMA.
+   Anda adalah Performance Analyst untuk atlet MMA.
 
-Data Terakhir:
-- Goal: {latest['goal']}
-- Fatigue: {latest['fatigue']}
-- Training Load: {latest['training_load']}
-- Weight: {latest['weight']}
-- Sleep: {latest['sleep']}
-- HR Mean: {latest['hr_mean']}
+   Data Terakhir:
+   - Goal: {latest['goal']}
+   - Fatigue: {latest['fatigue']}
+   - Training Load: {latest['training_load']}
+   - Weight: {latest['weight']}
+   - Sleep: {latest['sleep']}
+   - HR Mean: {latest['hr_mean']}
 
-Tugas:
-Evaluasi kondisi atlet berdasarkan data tersebut.
+   Tugas:
+   Evaluasi kondisi atlet berdasarkan data tersebut.
 
-Aturan:
-- Bahasa Indonesia.
-- Maksimal 150 kata.
-- Tidak perlu salam.
-- Fokus pada progres latihan dan recovery.
+   Aturan:
+   - Bahasa Indonesia.
+   - Maksimal 150 kata.
+   - Tidak perlu salam.
+   - Fokus pada progres latihan dan recovery.
 
-Format:
+   Format:
 
-📈 Progress
-(...)
+   📈 Progress
+   (...)
 
-🚨 Potensi Masalah
-(...)
+   🚨 Potensi Masalah
+   (...)
 
-✅ Saran Perbaikan
-(...)
-"""
+   ✅ Saran Perbaikan
+   (...)
+   """
 
-    return ask_ai(prompt)
+   return ask_ai(prompt)
 
 
 # =========================
@@ -84,42 +84,42 @@ Format:
 def generate_weekly_plan(goal, fatigue):
 
     prompt = f"""
-Anda adalah pelatih MMA profesional.
+   Anda adalah pelatih MMA profesional.
 
-Data Atlet:
-- Goal: {goal}
-- Fatigue Score: {fatigue}/100
+   Data Atlet:
+   - Goal: {goal}
+   - Fatigue Score: {fatigue}/100
 
-Buat program latihan 7 hari.
+   Buat program latihan 7 hari.
 
-Aturan:
-- Bahasa Indonesia.
-- Jangan memberi salam.
-- Setiap hari maksimal 2 kalimat.
-- Sesuaikan volume latihan dengan fatigue.
-- Jika fatigue tinggi, tambahkan recovery day.
-- Jika fatigue rendah, boleh meningkatkan intensitas secara bertahap.
-- Jangan membuat latihan yang berbahaya.
+   Aturan:
+   - Bahasa Indonesia.
+   - Jangan memberi salam.
+   - Setiap hari maksimal 2 kalimat.
+   - Sesuaikan volume latihan dengan fatigue.
+   - Jika fatigue tinggi, tambahkan recovery day.
+   - Jika fatigue rendah, boleh meningkatkan intensitas secara bertahap.
+   - Jangan membuat latihan yang berbahaya.
 
-Format:
+   Format:
 
-Day 1:
-Fokus:
-Latihan:
+   Day 1:
+   Fokus:
+   Latihan:
 
-Day 2:
-Fokus:
-Latihan:
+   Day 2:
+   Fokus:
+   Latihan:
 
-...
-sampai Day 7
+   ...
+   sampai Day 7
 
-Tambahkan kesimpulan singkat di akhir.
-"""
+   Tambahkan kesimpulan singkat di akhir.
+   """
 
-    response = ask_ai(prompt)
+   response = ask_ai(prompt)
 
-    return response.split("\n")
+   return response.split("\n")
 
 def generate_coach_response(goal, fatigue, load, sleep, bmi, hr_mean=None):
 
