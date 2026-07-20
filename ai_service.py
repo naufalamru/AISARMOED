@@ -14,7 +14,7 @@ def ask_ai(prompt):
     }
 
     data = {
-        "model": "openrouter/free",  
+        "model": "meta-llama/llama-3.2-3b-instruct:free",  
         "messages": [
             {"role": "user", "content": prompt}
         ],
