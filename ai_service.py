@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "openai/gpt-oss-20b:free",
+        "model": "google/gemma-4-31b:free",
         "messages": [
             {
                 "role": "system",
