@@ -7,24 +7,35 @@ from ai_service import ask_ai
 def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
 
     prompt = f"""
-    no need to greet, straight to the point
-    Always use Bahasa Indonesia
-    Anda adalah pelatih MMA profesional.
+    Anda adalah pelatih Strength & Conditioning MMA profesional.
 
-    Data user:
+    Tugas:
+    Analisis kondisi atlet berdasarkan data berikut dan berikan rekomendasi latihan.
+
+    Data Atlet:
     - Goal: {goal}
-    - Fatigue: {fatigue}
+    - Fatigue Score: {fatigue}/100
     - Training Load: {load}
-    - Sleep: {sleep}
+    - Sleep Hours: {sleep}
     - BMI: {bmi}
-    - Rata-rata Heart Rate: {hr_mean}
+    - Average Heart Rate: {hr_mean}
 
-    Berikan:
-    1. Analisis kondisi
-    2. Risiko (jika ada)
-    3. Saran latihan sesi selanjutnya
+    Aturan:
+    - Gunakan Bahasa Indonesia.
+    - Jangan memberikan salam.
+    - Jangan menjelaskan AI atau model.
+    - Fokus pada sport science dan recovery.
+    - Jika fatigue > 80, prioritaskan recovery.
+    - Jika sleep < 6 jam, beri perhatian khusus pada pemulihan.
+    - Jika fatigue rendah, boleh sarankan peningkatan intensitas.
 
-    Gunakan bahasa santai tapi profesional serta singkat, padat, dan jelas.
+    Format Jawaban:
+
+    📊 Analisis Kondisi
+    (...)
+
+    ⚠️ Risiko
+    (...)
     """
 
     return ask_ai(prompt)
@@ -41,25 +52,36 @@ def generate_progress_insight(df):
     latest = df.iloc[-1]
 
     prompt = f"""
-    no need greetings
-    Always use Bahasa Indonesia
-    Anda adalah AI physique training analyst.
+Anda adalah Performance Analyst untuk atlet MMA.
 
-    Data terakhir:
-    - Goal: {latest['goal']}
-    - Fatigue: {latest['fatigue']}
-    - Training Load: {latest['training_load']}
-    - Weight: {latest['weight']}
-    - Sleep: {latest['sleep']}
-    - HR Mean: {latest['hr_mean']}
+Data Terakhir:
+- Goal: {latest['goal']}
+- Fatigue: {latest['fatigue']}
+- Training Load: {latest['training_load']}
+- Weight: {latest['weight']}
+- Sleep: {latest['sleep']}
+- HR Mean: {latest['hr_mean']}
 
-    Analisis:
-    - kondisi progress
-    - apakah ada overtraining
-    - saran perbaikan
+Tugas:
+Evaluasi kondisi atlet berdasarkan data tersebut.
 
-    Jawab singkat, jelas, dan profesional.
-    """
+Aturan:
+- Bahasa Indonesia.
+- Maksimal 150 kata.
+- Tidak perlu salam.
+- Fokus pada progres latihan dan recovery.
+
+Format:
+
+📈 Progress
+(...)
+
+🚨 Potensi Masalah
+(...)
+
+✅ Saran Perbaikan
+(...)
+"""
 
     return ask_ai(prompt)
 
@@ -70,21 +92,38 @@ def generate_progress_insight(df):
 def generate_weekly_plan(goal, fatigue):
 
     prompt = f"""
-    Always use Bahasa Indonesia
-    Buatkan saran program latihan selama 7 hari.
+Anda adalah pelatih MMA profesional.
 
-    Data:
-    - Goal: {goal}
-    - Fatigue: {fatigue}
+Data Atlet:
+- Goal: {goal}
+- Fatigue Score: {fatigue}/100
 
-    Format:
-    Day 1: ...
-    Day 2: ...
-    sampai Day 7
+Buat program latihan 7 hari.
 
-    Sesuaikan intensitas dengan fatigue.
-    Selalu himbau user agar melakukan konsultasi lanjutan dengan pelatih di camp.
-    """
+Aturan:
+- Bahasa Indonesia.
+- Jangan memberi salam.
+- Setiap hari maksimal 2 kalimat.
+- Sesuaikan volume latihan dengan fatigue.
+- Jika fatigue tinggi, tambahkan recovery day.
+- Jika fatigue rendah, boleh meningkatkan intensitas secara bertahap.
+- Jangan membuat latihan yang berbahaya.
+
+Format:
+
+Day 1:
+Fokus:
+Latihan:
+
+Day 2:
+Fokus:
+Latihan:
+
+...
+sampai Day 7
+
+Tambahkan kesimpulan singkat di akhir.
+"""
 
     response = ask_ai(prompt)
 
