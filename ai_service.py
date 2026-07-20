@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "openai/gpt-oss-20b:free",
+        "model": "openrouter/free",
         "messages": [
             {
                 "role": "system",
