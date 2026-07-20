@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "nvidia/nemotron-3-super:free",
+        "model": "openai/gpt-oss-20b:free",
         "messages": [
             {
                 "role": "system",
