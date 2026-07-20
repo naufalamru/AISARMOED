@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "google/gemma-4-31b:free",
+        "model": "openrouter/free",
         "messages": [
             {
                 "role": "system",
