@@ -440,7 +440,7 @@ if menu == "Training Plan":
                 goal, fatigue, f["training_load"], sleep, f["bmi"], f["hr_mean"]
             )
 
-            if "⚠️ ERROR API" in coach:
+            if coach.startswith("⚠️ ERROR API"):
                 coach = generate_coach_response(
                     goal, fatigue, f["training_load"], sleep, f["bmi"], f["hr_mean"]
                 )
