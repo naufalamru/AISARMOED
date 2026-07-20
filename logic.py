@@ -6,37 +6,32 @@ from ai_service import ask_ai
 # =========================
 def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
 
-    prompt = f"""
-    Anda adalah pelatih Strength & Conditioning MMA profesional.
+   prompt = f"""
+Data Atlet:
 
-    Tugas:
-    Analisis kondisi atlet berdasarkan data berikut dan berikan rekomendasi latihan.
+Goal: {goal}
+Fatigue Score: {fatigue}/100
+Training Load: {load}
+Sleep Hours: {sleep}
+BMI: {bmi}
+Average Heart Rate: {hr_mean}
 
-    Data Atlet:
-    - Goal: {goal}
-    - Fatigue Score: {fatigue}/100
-    - Training Load: {load}
-    - Sleep Hours: {sleep}
-    - BMI: {bmi}
-    - Average Heart Rate: {hr_mean}
+Tugas:
+1. Analisis kondisi atlet.
+2. Jelaskan risiko yang mungkin muncul.
+3. Berikan rekomendasi sesi latihan berikutnya.
 
-    Aturan:
-    - Gunakan Bahasa Indonesia.
-    - Jangan memberikan salam.
-    - Jangan menjelaskan AI atau model.
-    - Fokus pada sport science dan recovery.
-    - Jika fatigue > 80, prioritaskan recovery.
-    - Jika sleep < 6 jam, beri perhatian khusus pada pemulihan.
-    - Jika fatigue rendah, boleh sarankan peningkatan intensitas.
+Format:
 
-    Format Jawaban:
+📊 Analisis Kondisi
+...
 
-    📊 Analisis Kondisi
-    (...)
+⚠️ Risiko
+...
 
-    ⚠️ Risiko
-    (...)
-    """
+🥊 Rekomendasi Latihan
+...
+"""
 
     return ask_ai(prompt)
 
