@@ -44,7 +44,7 @@ def register_user(username, password, weight, height):
         "height": height
     }
     try:
-        response = requests.post(WEB_APP_URL, json=payload, timeout=10)
+        response = requests.post(WEB_APP_URL, data=payload, timeout=10)
         res_json = response.json()
         return res_json.get("status") == "success"
     except Exception:
@@ -60,7 +60,7 @@ def update_user_profile(username, weight, height):
         "height": height
     }
     try:
-        requests.post(WEB_APP_URL, json=payload, timeout=10)
+        requests.post(WEB_APP_URL, data=payload, timeout=10)
     except Exception:
         pass
 
@@ -81,7 +81,7 @@ def save_progress(data):
     }
     
     try:
-        response = requests.post(WEB_APP_URL, json=payload, timeout=10)
+        response = requests.post(WEB_APP_URL, data=payload, timeout=10)
         return response.json()
     except Exception as e:
         return {"status": "error", "message": str(e)}
