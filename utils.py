@@ -1,110 +1,97 @@
 import pandas as pd
-import os
-import requests
 import streamlit as st
+from supabase import create_client, Client
 
-WEB_APP_URL = st.secrets["WEB_APP_URL"]
+# Inisialisasi Koneksi Supabase
+SUPABASE_URL = st.secrets["SUPABASE_URL"]
+SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # =========================
-# USER (GOOGLE SHEETS CLOUD)
+# USER (SUPABASE)
 # =========================
 
 def load_users():
-    """Memuat data user dari Google Sheets (Tab 'users')"""
+    """Memuat data user dari database Supabase"""
     try:
-        response = requests.get(f"{WEB_APP_URL}?sheet=users", timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            df = pd.DataFrame(data)
-            if not df.empty:
-                return df
+        response = supabase.table("users").select("*").execute()
+        data = response.data
+        if data:
+            return pd.DataFrame(data)
     except Exception:
         pass
-    
-    # Fallback ke CSV lokal jika offline
-    if os.path.exists("users.csv"):
-        return pd.read_csv("users.csv")
     return pd.DataFrame(columns=["username", "password", "weight", "height"])
 
 def login_user(username, password):
-    df = load_users()
-    if df.empty or "username" not in df.columns:
-        return None
-    user = df[(df["username"].astype(str) == str(username)) & (df["password"].astype(str) == str(password))]
-    return user.iloc[0].to_dict() if not user.empty else None
+    try:
+        response = supabase.table("users").select("*").eq("username", username).eq("password", password).execute()
+        data = response.data
+        if data:
+            return data[0]
+    except Exception:
+        pass
+    return None
 
 def register_user(username, password, weight, height):
-    """Mengirim data registrasi baru ke Google Sheets"""
-    payload = {
-        "sheet": "users",
-        "action": "register",
-        "username": username,
-        "password": password,
-        "weight": weight,
-        "height": height
-    }
     try:
-        response = requests.post(WEB_APP_URL, data=payload, timeout=10)
-        res_json = response.json()
-        return res_json.get("status") == "success"
+        # Cek apakah username sudah ada
+        existing = supabase.table("users").select("username").eq("username", username).execute()
+        if existing.data:
+            return False
+        
+        # Simpan user baru ke Supabase
+        supabase.table("users").insert({
+            "username": username,
+            "password": password,
+            "weight": weight,
+            "height": height
+        }).execute()
+        return True
     except Exception:
         return False
 
 def update_user_profile(username, weight, height):
-    """Memperbarui profil user di Google Sheets"""
-    payload = {
-        "sheet": "users",
-        "action": "update",
-        "username": username,
-        "weight": weight,
-        "height": height
-    }
     try:
-        requests.post(WEB_APP_URL, data=payload, timeout=10)
+        supabase.table("users").update({
+            "weight": weight,
+            "height": height
+        }).eq("username", username).execute()
     except Exception:
         pass
 
 # =========================
-# PROGRESS (GOOGLE SHEETS CLOUD)
+# PROGRESS (SUPABASE)
 # =========================
 
 def save_progress(data):
-    payload = {
-        "sheet": "progress",
-        "username": data.get("username"),
-        "fatigue": data.get("fatigue"),
-        "training_load": data.get("training_load"),
-        "weight": data.get("weight"),
-        "sleep": data.get("sleep"),
-        "hr_mean": data.get("hr_mean"),
-        "goal": data.get("goal")
-    }
-    
     try:
-        response = requests.post(WEB_APP_URL, data=payload, timeout=10)
-        return response.json()
+        payload = {
+            "username": data.get("username"),
+            "fatigue": data.get("fatigue"),
+            "training_load": data.get("training_load"),
+            "weight": data.get("weight"),
+            "sleep": data.get("sleep"),
+            "hr_mean": data.get("hr_mean"),
+            "goal": data.get("goal"),
+            "date": data.get("date")
+        }
+        supabase.table("progress").insert(payload).execute()
+        return {"status": "success"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
 def load_progress(username=None):
     try:
-        response = requests.get(f"{WEB_APP_URL}?sheet=progress", timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            df = pd.DataFrame(data)
-            if not df.empty and username and "username" in df.columns:
-                return df[df["username"] == username]
-            return df
+        query = supabase.table("progress").select("*")
+        if username:
+            query = query.eq("username", username)
+        response = query.execute()
+        data = response.data
+        if data:
+            return pd.DataFrame(data)
     except Exception:
         pass
-    
-    if os.path.exists("progress.csv"):
-        df = pd.read_csv("progress.csv")
-        if not df.empty and username and "username" in df.columns:
-            return df[df["username"] == username]
-        return df
-        
-    return pd.DataFrame(columns=["username", "fatigue", "training_load", "weight", "sleep", "hr_mean", "goal"])
+    return pd.DataFrame(columns=["username", "fatigue", "training_load", "weight", "sleep", "hr_mean", "goal", "date"])
 
 # =========================
 # FEATURE ENGINEERING (MATCH MODEL)
