@@ -5,7 +5,6 @@ from ai_service import ask_ai
 # AI COACH (REAL AI)
 # =========================
 def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
-
     prompt = f"""
     Anda adalah pelatih Strength & Conditioning MMA profesional.
 
@@ -48,7 +47,6 @@ def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
 # AI PROGRESS INSIGHT
 # =========================
 def generate_progress_insight(df):
-
     if df.empty:
         return "Belum ada data."
 
@@ -94,7 +92,6 @@ def generate_progress_insight(df):
 # AI WEEKLY PLAN
 # =========================
 def generate_weekly_plan(goal, fatigue):
-
     prompt = f"""
     Anda adalah pelatih MMA profesional.
 
@@ -150,7 +147,6 @@ def generate_weekly_plan(goal, fatigue):
     """
 
     response = ask_ai(prompt)
-
     return response.split("\n")
 
 
@@ -158,7 +154,6 @@ def generate_weekly_plan(goal, fatigue):
 # RULE-BASED BACKUP COACH
 # =========================
 def generate_coach_response(goal, fatigue, load, sleep, bmi, hr_mean=None):
-
     if fatigue > 80:
         return "⚠️ Overtraining terdeteksi. Prioritaskan recovery dan istirahat."
 
@@ -187,7 +182,6 @@ def generate_coach_response(goal, fatigue, load, sleep, bmi, hr_mean=None):
 # RULE-BASED BACKUP INSIGHT
 # =========================
 def generate_progress_insight_backup(df):
-
     if df.empty:
         return "Belum ada data."
 
