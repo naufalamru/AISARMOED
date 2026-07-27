@@ -6,3 +6,4 @@ joblib
 requests
 openai
 python-dotenv
+supabase
