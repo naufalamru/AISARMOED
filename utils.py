@@ -1,8 +1,13 @@
 import pandas as pd
 import os
+import requests
+import streamlit as st
+
+# Ambil URL Web App dari Streamlit Secrets
+WEB_APP_URL = st.secrets.get("GOOGLE_SHEETS_WEB_APP_URL", "URL_WEB_APP_APPS_SCRIPT_ANDA_DI_SINI")
 
 # =========================
-# USER
+# USER (LOCAL CSV)
 # =========================
 
 def load_users():
@@ -41,22 +46,56 @@ def update_user_profile(username, weight, height):
     save_users(df)
 
 # =========================
-# PROGRESS
+# PROGRESS (GOOGLE SHEETS CLOUD)
 # =========================
 
 def save_progress(data):
-    file = "progress.csv"
-    df = pd.DataFrame([data])
+    """
+    Mengirim data progress ke Google Sheets via Apps Script Web App
+    sehingga data tidak hilang saat aplikasi diredeploy/di-restart di cloud.
+    """
+    payload = {
+        "sheet": "progress",
+        "username": data.get("username"),
+        "fatigue": data.get("fatigue"),
+        "training_load": data.get("training_load"),
+        "weight": data.get("weight"),
+        "sleep": data.get("sleep"),
+        "hr_mean": data.get("hr_mean"),
+        "goal": data.get("goal")
+    }
+    
+    try:
+        response = requests.post(WEB_APP_URL, json=payload, timeout=10)
+        return response.json()
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
-    if os.path.exists(file):
-        df.to_csv(file, mode="a", header=False, index=False)
-    else:
-        df.to_csv(file, index=False)
-
-def load_progress():
+def load_progress(username=None):
+    """
+    Memuat data progress dari Google Sheets (bisa difilter berdasarkan username).
+    Catatan: Apps Script perlu dikonfigurasi untuk merespons GET request jika ingin membaca data kembali.
+    """
+    try:
+        # Mengirim request GET untuk mengambil data dari Google Sheets Web App
+        response = requests.get(f"{WEB_APP_URL}?sheet=progress", timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            df = pd.DataFrame(data)
+            if not df.empty and username and "username" in df.columns:
+                return df[df["username"] == username]
+            return df
+    except Exception:
+        pass
+    
+    # Fallback ke file lokal jika offline atau terjadi error koneksi
     if os.path.exists("progress.csv"):
-        return pd.read_csv("progress.csv")
-    return pd.DataFrame()
+        df = pd.read_csv("progress.csv")
+        if not df.empty and username and "username" in df.columns:
+            return df[df["username"] == username]
+        return df
+        
+    return pd.DataFrame(columns=["username", "fatigue", "training_load", "weight", "sleep", "hr_mean", "goal"])
 
 # =========================
 # FEATURE ENGINEERING (MATCH MODEL)
@@ -102,15 +141,12 @@ def map_user_to_model_features(duration, sleep, weight, height, goal, sport):
     # GOAL LOGIC (UPDATED)
     # =========================
     goal_bulking = 1 if goal == "bulking" else 0
-
-    # ❗ maintaining → netral (tidak ubah model)
     goal_cardio = 0
 
     # =========================
     # TAMBAHAN LOGIC MAINTAINING
     # =========================
     if goal == "maintaining":
-        # stabilkan load & kalori
         calories *= 1.0
         training_load *= 0.9
 
