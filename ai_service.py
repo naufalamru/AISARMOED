@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "nvidia/nemotron-3-embed-1b:free",
+        "model": "google/gemma-4-26b-a4b-it:free",
         "messages": [
             {
                 "role": "system",
