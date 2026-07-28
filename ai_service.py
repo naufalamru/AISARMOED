@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "qwen/qwen-2.5-7b-instruct:free",
+        "model": "inclusionai/ling-3.0-flash:free",
         "messages": [
             {
                 "role": "system",
