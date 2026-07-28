@@ -514,7 +514,14 @@ elif menu == "Progress":
     col3.metric("Weight", f"{latest['weight']:.1f} kg")
 
     col1, col2 = st.columns(2)
-    col1.metric("BMI", f"{latest['bmi']:.2f}")
+    # Ambil tinggi badan dari session state (pastikan tinggi disimpan saat login/registrasi)
+    user_height = st.session_state.get("height", 1.75) 
+    current_weight = latest.get("weight", 0)
+
+    # Hitung BMI secara aman
+    bmi_value = current_weight / (user_height ** 2) if user_height and user_height > 0 else 0
+
+    col1.metric("BMI", f"{bmi_value:.2f}")
     col2.metric("Rata-rata Heart Rate", f"{latest['hr_mean']:.0f}")
 
     st.metric("Performance Score", f"{latest['performance_score']:.0f}")
