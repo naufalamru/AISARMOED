@@ -525,9 +525,9 @@ elif menu == "Progress":
     col2.metric("Rata-rata Heart Rate", f"{latest['hr_mean']:.0f}")
 
     # Perhitungan fallback aman jika kolom performance_score belum ada di database
-    if "performance_score" in latest and pd.notna(latest["performance_score"]):
+if "performance_score" in latest and pd.notna(latest["performance_score"]):
     perf_score = latest["performance_score"]
-    else:
+else:
     sleep_val = latest.get("sleep", 7)
     load_val = latest.get("training_load", 100)
     hr_val = latest.get("hr_mean", 120)
