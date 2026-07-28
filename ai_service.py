@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "eleutherai/gpt-oss-20b",
+        "model": "hy3",
         "messages": [
             {
                 "role": "system",
