@@ -52,7 +52,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "inclusionai/ling-3.0-flash:free",
+        "model": "nvidia/nemotron-3-embed-1b:free",
         "messages": [
             {
                 "role": "system",
