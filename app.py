@@ -524,7 +524,19 @@ elif menu == "Progress":
     col1.metric("BMI", f"{bmi_value:.2f}")
     col2.metric("Rata-rata Heart Rate", f"{latest['hr_mean']:.0f}")
 
-    st.metric("Performance Score", f"{latest['performance_score']:.0f}")
+    # Perhitungan fallback aman jika kolom performance_score belum ada di database
+    if "performance_score" in latest and pd.notna(latest["performance_score"]):
+    perf_score = latest["performance_score"]
+    else:
+    sleep_val = latest.get("sleep", 7)
+    load_val = latest.get("training_load", 100)
+    hr_val = latest.get("hr_mean", 120)
+    
+    intensity = min(100, (hr_val / 190) * 100)
+    sleep_score = min(100, (sleep_val / 8) * 100)
+    perf_score = (0.4 * intensity) + (0.4 * sleep_score) + (0.2 * (load_val / 100))
+
+st.metric("Performance Score", f"{perf_score:.0f}")
 
     # =========================
     # PERFORMANCE GAUGE
