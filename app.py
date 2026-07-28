@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 import time
 import base64
+import supabase
 
 from utils import *
 from logic import *
@@ -29,7 +30,6 @@ logo_base64 = get_base64_image("logo.png")
 # =========================
 st.markdown("""
 <style>
-
 /* BACKGROUND */
 .stApp {
     background-color: #0f0f0f;
@@ -53,8 +53,11 @@ section[data-testid="stSidebar"] * {
 .stButton>button {
     background-color: #ff1a1a;
     color: white;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /* CARD */
@@ -66,16 +69,13 @@ section[data-testid="stSidebar"] * {
     color: white !important;
 }
 
-/* PAKSA SEMUA ISI CARD PUTIH */
 .card * {
     color: white !important;
 }
 
-/* (Optional) biar link juga kelihatan */
 .card a {
     color: #ff4d4d !important;
 }
-
 
 /* METRIC */
 [data-testid="metric-container"] {
@@ -94,12 +94,10 @@ div[data-baseweb="select"] * {
     color: black !important;
 }
 
-            /* Semua teks putih */
 html, body, [class*="css"] {
     color: white !important;
 }
 
-/* Markdown */
 .stMarkdown,
 .stMarkdown p,
 .stMarkdown li,
@@ -111,41 +109,9 @@ html, body, [class*="css"] {
     color: white !important;
 }
 
-/* Info box */
-[data-testid="stAlert"] * {
+[data-testid="stAlert"] *, .stSuccess *, .stInfo *, .stWarning *, .stError * {
     color: white !important;
 }
-
-/* Success box */
-.stSuccess * {
-    color: white !important;
-}
-
-/* Info box */
-.stInfo * {
-    color: white !important;
-}
-
-/* Warning box */
-.stWarning * {
-    color: white !important;
-}
-
-/* Error box */
-.stError * {
-    color: white !important;
-}
-
-.stButton > button {
-    background-color: #ff1a1a;
-    color: white;
-    border-radius: 12px;
-    border: none;
-    height: 60px;
-    font-size: 20px;
-    font-weight: bold;
-}
-            
 </style>
 """, unsafe_allow_html=True)
 
@@ -183,7 +149,6 @@ if st.session_state.user:
 # AUTH (LOGIN / REGISTER)
 # =========================
 if st.session_state.user is None:
-
     st.markdown(f"""
     <div style="text-align:center; margin-top:60px;">
         <img src="data:image/png;base64,{logo_base64}" width="140" style="margin-bottom:20px;">
@@ -233,6 +198,12 @@ if st.session_state.user is None:
 # =========================
 user = st.session_state.user
 
+# Simpan height & weight di session state agar aman diakses di halaman lain
+if "height" not in st.session_state:
+    st.session_state.height = float(user.get("height", 1.75))
+if "weight" not in st.session_state:
+    st.session_state.weight = float(user.get("weight", 70.0))
+
 # =========================
 # SIDEBAR
 # =========================
@@ -242,8 +213,10 @@ st.sidebar.markdown(f"""
     <h3>Satria Moeda</h3>
 </div>
 """, unsafe_allow_html=True)
+
 if "page" not in st.session_state:
     st.session_state.page = "Home"
+
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "Navigation",
@@ -261,7 +234,6 @@ st.sidebar.write(f"👤 {user['username']}")
 # HOME
 # =========================
 if menu == "Home":
-
     st.markdown(f"""
     <div style='text-align:center; margin-top:20px;'>
         <img src="data:image/png;base64,{logo_base64}" width="140">
@@ -271,7 +243,6 @@ if menu == "Home":
     """, unsafe_allow_html=True)
 
     st.markdown("---")
-
     st.subheader("📖 Cara Menggunakan Aplikasi")
 
     st.info("""
@@ -285,64 +256,27 @@ if menu == "Home":
     ### Langkah Penggunaan
 
     **1. Selesaikan latihan terlebih dahulu**
-    - MMA
-    - Boxing
-    - Muay Thai
-    - BJJ
-    - Wrestling
-    - Running
-    - Strength Training
-    - HIIT
+    - MMA, Boxing, Muay Thai, BJJ, Wrestling, Running, Strength Training, HIIT
 
     **2. Masukkan data latihan**
-    - Jenis latihan
-    - Durasi latihan
-    - Jam tidur
-    - Berat badan
-    - Tinggi badan
+    - Jenis latihan, durasi, jam tidur, berat & tinggi badan
 
-    **3. Klik tombol Generate**
-    
-    Sistem akan menghitung:
-    - Fatigue Score
-    - Training Load
-    - Estimasi Kalori
-    - BMI
-    - Heart Rate Estimation
-    - Performance Score
+     **3. Klik tombol Generate**
+    - Sistem menghitung Fatigue Score, Training Load, Kalori, BMI, HR Mean, dan Performance Score
 
-    **4. Baca rekomendasi AI Coach**
-
-    AI Coach akan memberikan:
-    - Evaluasi kondisi tubuh
-    - Risiko overtraining
-    - Saran recovery
-    - Rekomendasi latihan berikutnya
-
-    **5. Pantau perkembanganmu pada menu Progress**
+    **4. Baca rekomendasi AI Coach & pantau progress**
     """)
-
-    st.markdown("---")
-
-    st.success("""
-    💡 Tips:
-    Semakin rutin Anda menginput data setelah latihan,
-    semakin baik sistem dalam membantu memantau progres latihan Anda.
-    """)
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1,2,1])
-
     with col2:
-        if st.button(
-        "Let's Start !",
-        use_container_width=True
-    ):
-         st.session_state.page = "Training Plan"
-         st.rerun()
-if menu == "Training Plan":
+        if st.button("Let's Start !", use_container_width=True):
+            st.session_state.page = "Training Plan"
+            st.rerun()
 
+# =========================
+# TRAINING PLAN
+# =========================
+elif menu == "Training Plan":
     st.markdown(f"""
     <div style='text-align:center; margin-top:20px;'>
         <img src="data:image/png;base64,{logo_base64}" width="120">
@@ -354,7 +288,6 @@ if menu == "Training Plan":
     st.caption("Powered by Machine Learning & LLM (OpenRouter)")
 
     goal = st.selectbox("🎯 Goal", ["cutting", "bulking", "maintaining"])
-
     sport = st.selectbox("🏋️ Sport Type", [
         "mma","boxing","muay_thai","bjj","wrestling",
         "running","cycling","strength_training","hiit","cardio","rest"
@@ -367,9 +300,7 @@ if menu == "Training Plan":
     height = st.number_input("📏 Height", 1.4, 2.2, float(user["height"]))
 
     if st.button("🚀 Generate"):
-
         with st.spinner("Melakukan Analisis..."):
-
             f = map_user_to_model_features(
                 duration, sleep, weight, height, goal, sport
             )
@@ -387,9 +318,6 @@ if menu == "Training Plan":
 
             fatigue = model.predict(model_input)[0]
 
-            # =========================
-            # DETECT UNREALISTIC
-            # =========================
             flags = detect_unrealistic_training(
                 duration=f["duration"],
                 hr_mean=f["hr_mean"],
@@ -414,6 +342,8 @@ if menu == "Training Plan":
         })
 
         update_user_profile(user["username"], weight, height)
+        st.session_state.weight = float(weight)
+        st.session_state.height = float(height)
 
         st.subheader("📊 Hasil")
 
@@ -439,12 +369,10 @@ if menu == "Training Plan":
             coach = generate_ai_coach(
                 goal, fatigue, f["training_load"], sleep, f["bmi"], f["hr_mean"]
             )
-
             if coach.startswith("⚠️ ERROR API"):
                 coach = generate_coach_response(
                     goal, fatigue, f["training_load"], sleep, f["bmi"], f["hr_mean"]
                 )
-
         except:
             coach = generate_coach_response(
                 goal, fatigue, f["training_load"], sleep, f["bmi"]
@@ -456,21 +384,14 @@ if menu == "Training Plan":
 # PROGRESS
 # =========================
 elif menu == "Progress":
-
     st.title("📈 Progress Tracker")
 
     df = load_progress()
 
-    # =========================
-    # HANDLE DATA KOSONG
-    # =========================
     if df.empty:
         st.warning("Belum ada data progress")
         st.stop()
 
-    # =========================
-    # FILTER USER
-    # =========================
     df["username"] = df["username"].astype(str)
     df = df[df["username"] == str(user["username"])]
 
@@ -478,80 +399,52 @@ elif menu == "Progress":
         st.info("Belum ada data untuk user ini")
         st.stop()
 
-    # =========================
-    # FORMAT DATE
-    # =========================
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df = df.dropna(subset=["date"])
     df = df.sort_values("date")
 
-    # =========================
-    # FILTER GOAL
-    # =========================
     st.subheader("🎯 Filter")
-
-    goal_list = df["goal"].unique().tolist()
+    goal_list = ["All"] + df["goal"].unique().tolist()
     selected_goal = st.selectbox("Pilih Goal", goal_list)
 
     if selected_goal != "All":
         df = df[df["goal"] == selected_goal]
 
-    # =========================
-    # TABLE
-    # =========================
     st.subheader("📋 Data Terakhir")
     st.dataframe(df.tail(10), use_container_width=True)
 
-    # =========================
-    # METRICS
-    # =========================
     latest = df.iloc[-1]
 
     col1, col2, col3 = st.columns(3)
-
     col1.metric("Fatigue", f"{latest['fatigue']:.2f}")
     col2.metric("Training Load", f"{latest['training_load']:.0f}")
     col3.metric("Weight", f"{latest['weight']:.1f} kg")
 
     col1, col2 = st.columns(2)
-    # Ambil tinggi badan dari session state (pastikan tinggi disimpan saat login/registrasi)
-    user_height = st.session_state.get("height", 1.75) 
+    user_height = st.session_state.get("height", float(user.get("height", 1.75)))
     current_weight = latest.get("weight", 0)
-
-    # Hitung BMI secara aman
     bmi_value = current_weight / (user_height ** 2) if user_height and user_height > 0 else 0
 
     col1.metric("BMI", f"{bmi_value:.2f}")
     col2.metric("Rata-rata Heart Rate", f"{latest['hr_mean']:.0f}")
 
-    # Perhitungan fallback aman jika kolom performance_score belum ada di database
-if "performance_score" in latest and pd.notna(latest["performance_score"]):
-    perf_score = latest["performance_score"]
-else:
-    sleep_val = latest.get("sleep", 7)
-    load_val = latest.get("training_load", 100)
-    hr_val = latest.get("hr_mean", 120)
-    
-    intensity = min(100, (hr_val / 190) * 100)
-    sleep_score = min(100, (sleep_val / 8) * 100)
-    perf_score = (0.4 * intensity) + (0.4 * sleep_score) + (0.2 * (load_val / 100))
+    if "performance_score" in latest and pd.notna(latest["performance_score"]):
+        perf_score = latest["performance_score"]
+    else:
+        sleep_val = latest.get("sleep", 7)
+        load_val = latest.get("training_load", 100)
+        hr_val = latest.get("hr_mean", 120)
+        
+        intensity = min(100, (hr_val / 190) * 100)
+        sleep_score = min(100, (sleep_val / 8) * 100)
+        perf_score = (0.4 * intensity) + (0.4 * sleep_score) + (0.2 * (load_val / 100))
 
-st.metric("Performance Score", f"{perf_score:.0f}")
+    st.metric("Performance Score", f"{perf_score:.0f}")
 
-    # =========================
-    # PERFORMANCE GAUGE
-    # =========================
     st.subheader("⚡ Performance Score")
-
-    perf = latest.get("performance_score", 0)
-
-    # Clamp 0–100
-    perf = max(0, min(100, perf))
-
-    # Progress bar
+    perf = max(0, min(100, perf_score))
     st.progress(int(perf))
 
-    # Label warna
     if perf > 80:
         st.success(f"🔥 Peak Performance ({perf:.0f})")
     elif perf > 60:
@@ -560,9 +453,7 @@ st.metric("Performance Score", f"{perf_score:.0f}")
         st.warning(f"⚠️ Moderate ({perf:.0f})")
     else:
         st.error(f"❌ Low Performance ({perf:.0f})")
-    # =========================
-    # CHART
-    # =========================
+
     st.subheader("Grafik Progress Fatigue")
     st.line_chart(df.set_index("date")[["fatigue"]])
     st.subheader("Grafik Progress Training Load")
@@ -570,11 +461,7 @@ st.metric("Performance Score", f"{perf_score:.0f}")
     st.subheader("Grafik Progress Berat Badan")
     st.line_chart(df.set_index("date")[["weight"]])
 
-    # =========================
-    # AI INSIGHT
-    # =========================
     st.subheader("🧠 AI Insight")
-
     try:
         with st.spinner("Menyiapkan Insight..."):
             insight = generate_progress_insight(df)
@@ -583,38 +470,30 @@ st.metric("Performance Score", f"{perf_score:.0f}")
 
     st.info(insight)
 
-    # =========================
-    # WEEKLY PLAN (SIMPLE & STABLE)
-    # =========================
     st.subheader("🏋️ Weekly Training Plan")
-
     goal_for_plan = selected_goal if selected_goal != "All" else latest["goal"]
 
     try:
         with st.spinner("Menyusun program latihan..."):
             plan = generate_weekly_plan(
-            goal=goal_for_plan,
-            fatigue=latest["fatigue"]
-        )
+                goal=goal_for_plan,
+                fatigue=latest["fatigue"]
+            )
     except:
         plan = ["AI tidak tersedia"]
 
-    # pastikan selalu list
     if not isinstance(plan, list):
         plan = [str(plan)]
 
-    # tampilkan
     st.markdown("<div class='card'>", unsafe_allow_html=True)
-
     for day in plan:
-     st.markdown(f"<p style='color:white; margin:5px 0;'>{day}</p>", unsafe_allow_html=True)
-
+        st.markdown(f"<p style='color:white; margin:5px 0;'>{day}</p>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
+
 # =========================
 # PROFILE
 # =========================
 elif menu == "Profile":
-
     st.title("👤 Profile")
 
     w = st.number_input("Weight", 30, 150, int(user["weight"]))
@@ -622,13 +501,14 @@ elif menu == "Profile":
 
     if st.button("Update"):
         update_user_profile(user["username"], w, h)
+        st.session_state.weight = float(w)
+        st.session_state.height = float(h)
         st.success("Updated")
 
 # =========================
 # LOGOUT
 # =========================
 elif menu == "Logout":
-
     st.session_state.user = None
     st.success("Logout berhasil")
     st.rerun()
