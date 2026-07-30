@@ -31,11 +31,6 @@ Aturan:
 - Jika fatigue tinggi, prioritaskan recovery.
 - Jika durasi tidur rendah, berikan perhatian khusus pada pemulihan.
 - Jelaskan risiko secara objektif tanpa menakut-nakuti pengguna.
-
-Format jawaban:
-- Analisis kondisi
-- Risiko
-- Rekomendasi
 """
 
 # ======================================
