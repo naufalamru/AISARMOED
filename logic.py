@@ -2,7 +2,7 @@ from ai_service import ask_ai
 
 
 # =========================
-# AI COACH (REAL AI)
+# AI COACH 
 # =========================
 def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
     prompt = f"""
@@ -19,7 +19,7 @@ def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
     Tugas:
     1. Analisis kondisi atlet.
     2. Jelaskan risiko yang mungkin muncul.
-    3. Berikan rekomendasi latihan berikutnya.
+    3. Berikan rekomendasi agar performa latihan berikutnya dapat maksimal.
 
     Aturan:
     - Gunakan Bahasa Indonesia.
