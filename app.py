@@ -306,16 +306,16 @@ elif menu == "Training Plan":
             )
 
             model_input = pd.DataFrame([{
-                "bmi": f["bmi"],
-                "calories": f["calories"],
-                "duration": f["duration"],
-                "sleep_hours": f["sleep_hours"],
-                "hr_mean": f["hr_mean"],
-                "hr_max": f["hr_max"],
-                "goal_cutting": f["goal_cutting"],        
-                "goal_bulking": f["goal_bulking"],        
-                "goal_maintaining": f["goal_maintaining"]
-            }])
+            "bmi": f.get("bmi", 24.5),
+            "calories": f.get("calories", 0.0),
+            "duration": f.get("duration", 0.0),
+            "sleep_hours": f.get("sleep_hours", 7.0),
+            "hr_mean": f.get("hr_mean", 100.0),
+            "hr_max": f.get("hr_max", 150.0),
+            "goal_cutting": f.get("goal_cutting", 0),        
+            "goal_bulking": f.get("goal_bulking", 0),        
+            "goal_maintaining": f.get("goal_maintaining", 0)
+        }])
 
             fatigue = model.predict(model_input)[0]
 
