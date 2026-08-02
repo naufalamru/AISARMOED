@@ -299,7 +299,7 @@ elif menu == "Training Plan":
     weight = st.number_input("⚖️ Weight", 30, 150, int(user["weight"]))
     height = st.number_input("📏 Height", 1.4, 2.2, float(user["height"]))
 
-   if st.button("🚀 Generate"):
+       if st.button("🚀 Generate"):
         with st.spinner("Melakukan Analisis..."):
             f = map_user_to_model_features(
                 duration, sleep, weight, height, goal, sport
