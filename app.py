@@ -299,25 +299,25 @@ elif menu == "Training Plan":
     weight = st.number_input("⚖️ Weight", 30, 150, int(user["weight"]))
     height = st.number_input("📏 Height", 1.4, 2.2, float(user["height"]))
 
-    if st.button("🚀 Generate"):
+   if st.button("🚀 Generate"):
         with st.spinner("Melakukan Analisis..."):
             f = map_user_to_model_features(
                 duration, sleep, weight, height, goal, sport
             )
 
             model_input = pd.DataFrame([{
-            "bmi": float(f.get("bmi", 24.5)),
-            "calories": float(f.get("calories", 0.0)),
-            "duration": float(f.get("duration", 0.0)),
-            "sleep_hours": float(f.get("sleep_hours", 7.0)),
-            "hr_mean": float(f.get("hr_mean", 100.0)),
-            "hr_max": float(f.get("hr_max", 150.0)),
-            "goal_cutting": int(f.get("goal_cutting", 0)),        
-            "goal_bulking": int(f.get("goal_bulking", 0)),        
-            "goal_maintaining": int(f.get("goal_maintaining", 0))
-        }])
+                "bmi": float(f.get("bmi", 24.5)),
+                "calories": float(f.get("calories", 0.0)),
+                "duration": float(f.get("duration", 0.0)),
+                "sleep_hours": float(f.get("sleep_hours", 7.0)),
+                "hr_mean": float(f.get("hr_mean", 100.0)),
+                "hr_max": float(f.get("hr_max", 150.0)),
+                "goal_cutting": int(f.get("goal_cutting", 0)),        
+                "goal_bulking": int(f.get("goal_bulking", 0)),        
+                "goal_maintaining": int(f.get("goal_maintaining", 0))
+            }])
 
-        fatigue = model.predict(model_input)[0]
+            fatigue = model.predict(model_input)[0]
 
             flags = detect_unrealistic_training(
                 duration=f["duration"],
