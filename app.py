@@ -312,8 +312,9 @@ elif menu == "Training Plan":
                 "sleep_hours": f["sleep_hours"],
                 "hr_mean": f["hr_mean"],
                 "hr_max": f["hr_max"],
-                "goal_bulking": f["goal_bulking"],
-                "goal_cardio": f["goal_cardio"]
+                "goal_cutting": f["goal_cutting"],        
+                "goal_bulking": f["goal_bulking"],        
+                "goal_maintaining": f["goal_maintaining"]
             }])
 
             fatigue = model.predict(model_input)[0]
