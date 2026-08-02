@@ -306,18 +306,18 @@ elif menu == "Training Plan":
             )
 
             model_input = pd.DataFrame([{
-            "bmi": f.get("bmi", 24.5),
-            "calories": f.get("calories", 0.0),
-            "duration": f.get("duration", 0.0),
-            "sleep_hours": f.get("sleep_hours", 7.0),
-            "hr_mean": f.get("hr_mean", 100.0),
-            "hr_max": f.get("hr_max", 150.0),
-            "goal_cutting": f.get("goal_cutting", 0),        
-            "goal_bulking": f.get("goal_bulking", 0),        
-            "goal_maintaining": f.get("goal_maintaining", 0)
+            "bmi": float(f.get("bmi", 24.5)),
+            "calories": float(f.get("calories", 0.0)),
+            "duration": float(f.get("duration", 0.0)),
+            "sleep_hours": float(f.get("sleep_hours", 7.0)),
+            "hr_mean": float(f.get("hr_mean", 100.0)),
+            "hr_max": float(f.get("hr_max", 150.0)),
+            "goal_cutting": int(f.get("goal_cutting", 0)),        
+            "goal_bulking": int(f.get("goal_bulking", 0)),        
+            "goal_maintaining": int(f.get("goal_maintaining", 0))
         }])
 
-            fatigue = model.predict(model_input)[0]
+        fatigue = model.predict(model_input)[0]
 
             flags = detect_unrealistic_training(
                 duration=f["duration"],
