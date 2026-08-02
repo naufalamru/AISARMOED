@@ -126,8 +126,9 @@ def map_user_to_model_features(duration, sleep, weight, height, goal, sport):
         0.2 * (training_load / 100)
     )
 
+    goal_cutting = 1 if goal == "cutting" else 0
     goal_bulking = 1 if goal == "bulking" else 0
-    goal_cardio = 0
+    goal_maintaining = 1 if goal == "maintaining" else 0
 
     if goal == "maintaining":
         calories *= 1.0
@@ -144,8 +145,9 @@ def map_user_to_model_features(duration, sleep, weight, height, goal, sport):
         "sleep_hours": sleep,
         "hr_mean": hr_mean,
         "hr_max": hr_max,
-        "goal_bulking": goal_bulking,
-        "goal_cardio": goal_cardio,
+        "goal_cutting": goal_cutting,         
+        "goal_bulking": goal_bulking,         
+        "goal_maintaining": goal_maintaining, 
         "training_load": training_load,
         "performance_score": performance_score
     }
