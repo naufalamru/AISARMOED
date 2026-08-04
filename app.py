@@ -247,7 +247,7 @@ menu=st.sidebar.radio(
 
 [
 "Home",
-"Training Plan",
+"Training Analysis",
 "Progress",
 "Profile",
 "Logout"
@@ -345,10 +345,10 @@ Kemudian AI Coach memberikan rekomendasi latihan berikutnya.
             st.rerun()
 
 # =====================================================
-# TRAINING PLAN
+# TRAINING ANALYSIS
 # =====================================================
 
-elif menu == "Training Plan":
+elif menu == "Training Analysis":
 
     st.markdown(f"""
     <div style="text-align:center">
