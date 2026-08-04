@@ -348,276 +348,172 @@ Kemudian AI Coach memberikan rekomendasi latihan berikutnya.
 # TRAINING PLAN
 # =====================================================
 
-elif menu=="Training Plan":
+elif menu == "Training Plan":
 
     st.markdown(f"""
-
-<div style="text-align:center">
-
-<img src="data:image/png;base64,{logo_base64}" width="120">
-
-<h1>MMA AI Assistant</h1>
-
-<p>Training Recommendation System</p>
-
-</div>
-
-""",unsafe_allow_html=True)
+    <div style="text-align:center">
+        <img src="data:image/png;base64,{logo_base64}" width="120">
+        <h1>MMA AI Assistant</h1>
+        <p>Training Recommendation System</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.caption("Powered by Fitness-Fatigue Model & OpenRouter")
 
-    goal=st.selectbox(
-
+    goal = st.selectbox(
         "🎯 Goal",
-
-        [
-            "cutting",
-            "bulking",
-            "maintaining"
-        ]
-
+        ["cutting", "bulking", "maintaining"]
     )
 
-    sport=st.selectbox(
-
+    sport = st.selectbox(
         "🥊 Sport",
-
         [
-
-        "mma",
-
-        "boxing",
-
-        "muay_thai",
-
-        "bjj",
-
-        "wrestling",
-
-        "running",
-
-        "cycling",
-
-        "strength_training",
-
-        "hiit",
-
-        "cardio",
-
-        "rest"
-
+            "mma",
+            "boxing",
+            "muay_thai",
+            "bjj",
+            "wrestling",
+            "running",
+            "cycling",
+            "strength_training",
+            "hiit",
+            "cardio",
+            "rest"
         ]
-
     )
 
-    duration=st.number_input(
-
+    duration = st.number_input(
         "⏱ Duration (Minute)",
-
         min_value=0,
-
         max_value=300,
-
         value=60
-
     )
 
-    sleep=st.number_input(
-
+    sleep = st.number_input(
         "😴 Sleep (Hour)",
-
         min_value=0.0,
-
         max_value=12.0,
-
         value=7.0
-
     )
 
-    weight=st.number_input(
-
+    weight = st.number_input(
         "⚖ Weight",
-
         30,
-
         150,
-
         int(user["weight"])
-
     )
 
-    height=st.number_input(
-
+    height = st.number_input(
         "📏 Height",
-
         1.40,
-
         2.20,
-
         float(user["height"])
-
     )
 
-    if st.button(
+    if st.button("🚀 Generate", use_container_width=True):
 
-        "🚀 Generate",
-
-        use_container_width=True
-
-    ):
-
-        metrics=calculate_training_metrics(
-
+        metrics = calculate_training_metrics(
             duration=duration,
-
             sleep=sleep,
-
             weight=weight,
-
             height=height,
-
             goal=goal,
-
             sport=sport
-
         )
 
-       result = save_progress({
-        "username": user["username"],
-        "goal": goal,
-        "sport": sport,
-        "training_load": metrics["training_load"],
-        "recovery_score": metrics["recovery_score"],
-        "readiness_score": metrics["readiness_score"],
-        "calories": metrics["calories"],
-        "bmi": metrics["bmi"],
-        "weight": weight,
-        "sleep": sleep,
-        "hr_mean": metrics["hr_mean"],
-        "date": datetime.datetime.now()
-    })
+        result = save_progress({
+            "username": user["username"],
+            "goal": goal,
+            "sport": sport,
+            "training_load": metrics["training_load"],
+            "recovery_score": metrics["recovery_score"],
+            "readiness_score": metrics["readiness_score"],
+            "calories": metrics["calories"],
+            "bmi": metrics["bmi"],
+            "weight": weight,
+            "sleep": sleep,
+            "hr_mean": metrics["hr_mean"],
+            "date": datetime.datetime.now()
+        })
 
-st.write(result)
+        st.write(result)   # sementara untuk debugging
 
         update_user_profile(
-
             user["username"],
-
             weight,
-
             height
-
         )
 
-        st.session_state.weight=weight
-        st.session_state.height=height
+        st.session_state.weight = weight
+        st.session_state.height = height
 
         st.markdown("---")
-
         st.subheader("📊 Training Analysis")
 
-        col1,col2,col3=st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
         col1.metric(
-
             "Training Load",
-
             f"{metrics['training_load']:.1f}"
-
         )
 
         col2.metric(
-
             "Recovery Score",
-
             f"{metrics['recovery_score']:.1f}"
-
         )
 
         col3.metric(
-
             "Readiness Score",
-
             f"{metrics['readiness_score']:.1f}"
-
         )
 
-        col1,col2,col3=st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
         col1.metric(
-
             "Calories",
-
             f"{metrics['calories']:.0f}"
-
         )
 
         col2.metric(
-
             "BMI",
-
             f"{metrics['bmi']:.2f}"
-
         )
 
         col3.metric(
-
             "Heart Rate",
-
             f"{metrics['hr_mean']:.0f}"
-
         )
-        readiness=metrics["readiness_score"]
 
-        if readiness>=80:
+        readiness = metrics["readiness_score"]
 
+        if readiness >= 80:
             st.success("🟢 Ready for High Intensity Training")
-
-        elif readiness>=60:
-
+        elif readiness >= 60:
             st.info("🟡 Ready for Moderate Training")
-
-        elif readiness>=40:
-
+        elif readiness >= 40:
             st.warning("🟠 Reduce Training Volume")
-
         else:
-
             st.error("🔴 Recovery Recommended")
-        st.markdown("---")
 
+        st.markdown("---")
         st.subheader("🤖 AI Coach")
 
         try:
-
-            coach=generate_ai_coach(
-
+            coach = generate_ai_coach(
                 goal=goal,
-
                 training_load=metrics["training_load"],
-
                 recovery_score=metrics["recovery_score"],
-
                 readiness_score=metrics["readiness_score"],
-
                 sleep=sleep,
-
                 bmi=metrics["bmi"],
-
                 hr_mean=metrics["hr_mean"]
-
             )
-
-        except:
-
-            coach="AI tidak tersedia."
+        except Exception:
+            coach = "AI tidak tersedia."
 
         st.markdown(
-
             f"<div class='card'>{coach}</div>",
-
             unsafe_allow_html=True
-
         )
 # =====================================================
 # PROGRESS
