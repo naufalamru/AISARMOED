@@ -435,7 +435,6 @@ elif menu == "Training Plan":
             "hr_mean": metrics["hr_mean"],
             "date": datetime.datetime.now().isoformat()
         })
-        st.write(result)   # sementara untuk debugging
 
         update_user_profile(
             user["username"],
