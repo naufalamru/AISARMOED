@@ -108,57 +108,108 @@ Format
 
     return ask_ai(prompt)
 
-# =====================================================
-# WEEKLY PLAN
-# =====================================================
+# ======================================================
+# TEMPLATE PROGRAM LATIHAN
+# ======================================================
 
-def generate_weekly_plan(goal, readiness_score):
+def get_weekly_template(goal, sport):
 
-    prompt = f"""
-Anda adalah pelatih MMA profesional.
+    templates = {
 
-Data Atlet
+        "mma": [
+            ("Senin","Striking + Conditioning"),
+            ("Selasa","Strength Training"),
+            ("Rabu","Recovery"),
+            ("Kamis","Grappling + Conditioning"),
+            ("Jumat","Sparring"),
+            ("Sabtu","Endurance"),
+            ("Minggu","Recovery")
+        ],
 
-Goal : {goal}
+        "boxing":[
+            ("Senin","Footwork & Padwork"),
+            ("Selasa","Strength"),
+            ("Rabu","Recovery"),
+            ("Kamis","Heavy Bag"),
+            ("Jumat","Sparring"),
+            ("Sabtu","Roadwork"),
+            ("Minggu","Recovery")
+        ],
 
-Readiness Score : {readiness_score}/100
+        "muay_thai":[
+            ("Senin","Kick & Clinch"),
+            ("Selasa","Strength"),
+            ("Rabu","Recovery"),
+            ("Kamis","Padwork"),
+            ("Jumat","Sparring"),
+            ("Sabtu","Conditioning"),
+            ("Minggu","Recovery")
+        ],
 
-Buat program latihan selama 7 hari.
+        "bjj":[
+            ("Senin","Guard Passing"),
+            ("Selasa","Strength"),
+            ("Rabu","Recovery"),
+            ("Kamis","Submission Drill"),
+            ("Jumat","Rolling"),
+            ("Sabtu","Grip Strength"),
+            ("Minggu","Recovery")
+        ],
 
-Aturan
+        "wrestling":[
+            ("Senin","Takedown Drill"),
+            ("Selasa","Strength"),
+            ("Rabu","Recovery"),
+            ("Kamis","Chain Wrestling"),
+            ("Jumat","Live Wrestling"),
+            ("Sabtu","Conditioning"),
+            ("Minggu","Recovery")
+        ],
 
-- Gunakan Bahasa Indonesia.
-- Jangan memberi salam.
-- Maksimal dua kalimat setiap hari.
-- Sesuaikan intensitas dengan Readiness Score.
-- Jika readiness rendah, tambahkan recovery.
-- Jika readiness tinggi, naikkan intensitas bertahap.
+        "running":[
+            ("Senin","Easy Run"),
+            ("Selasa","Interval"),
+            ("Rabu","Recovery"),
+            ("Kamis","Tempo Run"),
+            ("Jumat","Easy Run"),
+            ("Sabtu","Long Run"),
+            ("Minggu","Recovery")
+        ],
 
-Format
+        "strength_training":[
+            ("Senin","Upper Body"),
+            ("Selasa","Lower Body"),
+            ("Rabu","Recovery"),
+            ("Kamis","Push"),
+            ("Jumat","Pull"),
+            ("Sabtu","Full Body"),
+            ("Minggu","Recovery")
+        ],
 
-Day 1
+        "hiit":[
+            ("Senin","HIIT"),
+            ("Selasa","Mobility"),
+            ("Rabu","Recovery"),
+            ("Kamis","HIIT"),
+            ("Jumat","Circuit"),
+            ("Sabtu","Conditioning"),
+            ("Minggu","Recovery")
+        ]
+    }
 
-Fokus
+    template = templates.get(sport, templates["mma"])
 
-Latihan
+    if goal == "cutting":
 
-Day 2
+        template[5] = ("Sabtu","Cardio Endurance")
 
-...
+    elif goal == "bulking":
 
-Day 7
+        template[1] = ("Selasa","Heavy Strength")
 
-...
+        template[5] = ("Sabtu","Hypertrophy")
 
-Kesimpulan
-
-...
-"""
-
-    response = ask_ai(prompt)
-
-    return response.split("\n")
-
+    return template
 # =====================================================
 # RULE BASED BACKUP
 # =====================================================
