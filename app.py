@@ -636,8 +636,25 @@ elif menu == "Progress":
             readiness_score=latest["readiness_score"]
         )
     
+        weekly_text = (
+            "\n".join(weekly)
+            if isinstance(weekly, list)
+            else str(weekly)
+        )
+    
         st.markdown(
-            f"<div class='card'>{weekly}</div>",
+            f"""
+            <div class="card">
+            <pre style="
+                white-space:pre-wrap;
+                font-family:inherit;
+                color:white;
+                margin:0;
+            ">
+    {weekly_text}
+            </pre>
+            </div>
+            """,
             unsafe_allow_html=True
         )
     
