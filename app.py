@@ -367,20 +367,34 @@ elif menu == "Training Plan":
 
     sport = st.selectbox(
         "🥊 Sport",
-       [
+[
+
             "mma"
+        
             "boxing"
+        
             "muay_thai"
+        
             "kickboxing"
+        
             "bjj"
+        
             "wrestling"
+        
             "jogging (pace 10)"
+        
             "running (pace 6)"
+        
             "cycling"
+        
             "strength_training"
+        
             "hiit"
+        
             "walking"
+        
             "rest"
+
         ]
     )
 
