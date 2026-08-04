@@ -226,29 +226,33 @@ def calculate_training_metrics(
     bmi = weight / (height ** 2)
 
     met_table = {
-
-        "mma":10,
-
-        "boxing":9,
-
-        "muay_thai":10,
-
-        "bjj":8,
-
-        "wrestling":9,
-
-        "running":8,
-
-        "cycling":7,
-
-        "strength_training":6,
-
-        "hiit":9,
-
-        "cardio":7,
-
-        "rest":1
-
+    
+            "mma":10.3,
+    
+            "boxing":7.8,
+    
+            "muay_thai":10.3,
+    
+            "kickboxing":7.3,
+    
+            "bjj":6,
+    
+            "wrestling":6,
+    
+            "jogging (pace 10)":3.3,
+    
+            "running (pace 6)":9.8,
+    
+            "cycling":7.5,
+    
+            "strength_training":6,
+    
+            "hiit":9,
+    
+            "walking":4.3,
+    
+            "rest":1
+    
     }
 
     met = met_table.get(sport,6)
