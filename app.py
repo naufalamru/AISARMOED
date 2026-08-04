@@ -369,29 +369,29 @@ elif menu == "Training Plan":
         "🥊 Sport",
 [
 
-            "mma"
+            "mma",
         
-            "boxing"
+            "boxing",
         
-            "muay_thai"
+            "muay_thai",
         
-            "kickboxing"
+            "kickboxing",
         
-            "bjj"
+            "bjj",
         
-            "wrestling"
+            "wrestling",
         
-            "jogging (pace 10)"
+            "jogging (pace 10)",
         
-            "running (pace 6)"
+            "running (pace 6)",
         
-            "cycling"
+            "cycling",
         
-            "strength_training"
+            "strength_training",
         
-            "hiit"
+            "hiit",
         
-            "walking"
+            "walking",
         
             "rest"
 
