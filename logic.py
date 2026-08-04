@@ -210,6 +210,98 @@ def get_weekly_template(goal, sport):
         template[5] = ("Sabtu","Hypertrophy")
 
     return template
+
+def generate_weekly_plan(
+    goal,
+    sport,
+    training_load,
+    recovery_score,
+    readiness_score
+):
+
+    template = get_weekly_template(goal, sport)
+
+    template_text = ""
+
+    for day, focus in template:
+
+        template_text += f"""
+
+{day}
+Fokus : {focus}
+
+"""
+
+    prompt = f"""
+Anda adalah pelatih Strength & Conditioning MMA profesional.
+
+Data Atlet
+
+Goal : {goal}
+
+Jenis Latihan : {sport}
+
+Training Load : {training_load:.1f}
+
+Recovery Score : {recovery_score:.1f}
+
+Readiness Score : {readiness_score:.1f}
+
+
+Berikut adalah template latihan yang SUDAH DITENTUKAN.
+
+{template_text}
+
+Tugas Anda
+
+1. Jangan mengubah nama hari.
+2. Jangan mengubah fokus latihan.
+3. Tambahkan rekomendasi latihan pada setiap hari.
+4. Sesuaikan volume dan intensitas berdasarkan:
+   - Training Load
+   - Recovery Score
+   - Readiness Score
+
+Aturan
+
+- Bahasa Indonesia.
+- Maksimal dua kalimat pada setiap hari.
+- Tidak perlu memberi salam.
+- Jangan menjelaskan AI.
+- Recovery jika Recovery Score rendah.
+- Intensitas tinggi hanya jika Readiness Score tinggi.
+- Jangan mengubah urutan hari.
+
+Format
+
+### Senin
+Fokus :
+...
+
+Latihan :
+...
+
+### Selasa
+Fokus :
+...
+
+Latihan :
+...
+
+...
+
+### Minggu
+Fokus :
+...
+
+Latihan :
+...
+
+### Kesimpulan
+Berikan evaluasi singkat terhadap program latihan minggu ini.
+"""
+
+    return ask_ai(prompt)
 # =====================================================
 # RULE BASED BACKUP
 # =====================================================
