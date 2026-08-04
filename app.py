@@ -626,7 +626,7 @@ elif menu == "Progress":
 
     )
 
-  st.markdown("---")
+    st.markdown("---")
 
     st.subheader("📅 Weekly Training Plan")
 
