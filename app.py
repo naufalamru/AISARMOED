@@ -483,19 +483,19 @@ elif menu=="Training Plan":
         )
 
        result = save_progress({
-    "username": user["username"],
-    "goal": goal,
-    "sport": sport,
-    "training_load": metrics["training_load"],
-    "recovery_score": metrics["recovery_score"],
-    "readiness_score": metrics["readiness_score"],
-    "calories": metrics["calories"],
-    "bmi": metrics["bmi"],
-    "weight": weight,
-    "sleep": sleep,
-    "hr_mean": metrics["hr_mean"],
-    "date": datetime.datetime.now()
-})
+        "username": user["username"],
+        "goal": goal,
+        "sport": sport,
+        "training_load": metrics["training_load"],
+        "recovery_score": metrics["recovery_score"],
+        "readiness_score": metrics["readiness_score"],
+        "calories": metrics["calories"],
+        "bmi": metrics["bmi"],
+        "weight": weight,
+        "sleep": sleep,
+        "hr_mean": metrics["hr_mean"],
+        "date": datetime.datetime.now()
+    })
 
 st.write(result)
 
