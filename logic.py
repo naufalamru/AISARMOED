@@ -43,7 +43,7 @@ Aturan
 - Jika Readiness tinggi, latihan dapat ditingkatkan bertahap.
 - Jika tidur < 6 jam, prioritaskan pemulihan.
 
-Format
+Format Output yang Harus Ditiru Secara Konsisten (Mulai dari 📊 Analisis Kondisi):
 
 📊 Analisis Kondisi
 ...
@@ -91,7 +91,7 @@ Tugas
 
 Evaluasi kondisi atlet berdasarkan data tersebut.
 
-Format
+Format Output yang Harus Ditiru Secara Konsisten (Mulai dari 📈 Progress):
 
 📈 Progress
 
@@ -272,7 +272,7 @@ Aturan
 - Intensitas tinggi hanya jika Readiness Score tinggi.
 - Jangan mengubah urutan hari.
 
-Format
+Format Output yang Harus Ditiru Secara Konsisten (Mulai dari Senin):
 
 ### Senin
 Fokus :
