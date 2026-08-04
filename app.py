@@ -433,9 +433,8 @@ elif menu == "Training Plan":
             "weight": weight,
             "sleep": sleep,
             "hr_mean": metrics["hr_mean"],
-            "date": datetime.datetime.now()
+            "date": datetime.datetime.now().isoformat()
         })
-
         st.write(result)   # sementara untuk debugging
 
         update_user_profile(
