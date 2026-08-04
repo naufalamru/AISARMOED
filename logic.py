@@ -1,193 +1,226 @@
 from ai_service import ask_ai
 
+# =====================================================
+# AI COACH
+# =====================================================
 
-# =========================
-# AI COACH 
-# =========================
-def generate_ai_coach(goal, fatigue, load, sleep, bmi, hr_mean):
+def generate_ai_coach(
+    goal,
+    training_load,
+    recovery_score,
+    readiness_score,
+    sleep,
+    bmi,
+    hr_mean
+):
+
     prompt = f"""
-    Anda adalah pelatih Strength & Conditioning MMA profesional.
+Anda adalah pelatih Strength & Conditioning MMA profesional.
 
-    Data Atlet:
-    - Goal: {goal}
-    - Fatigue Score: {fatigue}/100
-    - Training Load: {load}
-    - Sleep Hours: {sleep}
-    - BMI: {bmi}
-    - Average Heart Rate: {hr_mean}
+Data Atlet
 
-    Tugas:
-    1. Analisis kondisi atlet.
-    2. Jelaskan risiko yang mungkin muncul.
-    3. Berikan rekomendasi agar performa latihan berikutnya dapat maksimal.
+- Goal : {goal}
+- Training Load : {training_load:.2f}
+- Recovery Score : {recovery_score:.2f}/100
+- Readiness Score : {readiness_score:.2f}/100
+- Sleep Hours : {sleep}
+- BMI : {bmi:.2f}
+- Average Heart Rate : {hr_mean:.0f}
 
-    Aturan:
-    - Gunakan Bahasa Indonesia.
-    - Jangan memberikan salam.
-    - Jangan menjelaskan AI atau model.
-    - Fokus pada sport science.
-    - Jika fatigue > 80, prioritaskan recovery.
-    - Jika fatigue 60–80, kurangi volume latihan.
-    - Jika fatigue < 40, atlet siap meningkatkan intensitas.
-    - Jika tidur < 6 jam, prioritaskan pemulihan.
+Tugas
 
-    Format:
+1. Analisis kondisi atlet.
+2. Jelaskan risiko latihan.
+3. Berikan rekomendasi latihan berikutnya.
 
-    📊 Analisis Kondisi :
-    ...
+Aturan
 
-    ⚠️ Risiko :
-    ...
-    """
+- Gunakan Bahasa Indonesia.
+- Jangan memberi salam.
+- Jangan menjelaskan AI.
+- Fokus pada sport science.
+- Jika Recovery Score rendah, prioritaskan recovery.
+- Jika Readiness tinggi, latihan dapat ditingkatkan bertahap.
+- Jika tidur < 6 jam, prioritaskan pemulihan.
+
+Format
+
+📊 Analisis Kondisi
+...
+
+⚠️ Risiko
+...
+
+✅ Rekomendasi
+...
+"""
 
     return ask_ai(prompt)
 
+# =====================================================
+# AI PROGRESS
+# =====================================================
 
-# =========================
-# AI PROGRESS INSIGHT
-# =========================
 def generate_progress_insight(df):
+
     if df.empty:
         return "Belum ada data."
 
     latest = df.iloc[-1]
 
     prompt = f"""
-    Anda adalah Performance Analyst untuk atlet MMA.
+Anda adalah Performance Analyst atlet MMA.
 
-    Data Terakhir:
-    - Goal: {latest['goal']}
-    - Fatigue: {latest['fatigue']}
-    - Training Load: {latest['training_load']}
-    - Weight: {latest['weight']}
-    - Sleep: {latest['sleep']}
-    - HR Mean: {latest['hr_mean']}
+Data Terakhir
 
-    Tugas:
-    Evaluasi kondisi atlet berdasarkan data tersebut.
+Goal : {latest['goal']}
 
-    Aturan:
-    - Gunakan Bahasa Indonesia.
-    - Maksimal 150 kata.
-    - Jangan memberi salam.
-    - Fokus pada progres latihan dan recovery.
-    - Berikan insight yang mudah dipahami atlet.
+Training Load : {latest['training_load']}
 
-    Format:
+Recovery Score : {latest['recovery_score']}
 
-    📈 Progress
-    ...
+Readiness Score : {latest['readiness_score']}
 
-    🚨 Potensi Masalah
-    ...
+Weight : {latest['weight']}
 
-    ✅ Saran Perbaikan
-    ...
-    """
+Sleep : {latest['sleep']}
+
+Heart Rate : {latest['hr_mean']}
+
+Tugas
+
+Evaluasi kondisi atlet berdasarkan data tersebut.
+
+Format
+
+📈 Progress
+
+...
+
+⚠️ Potensi Masalah
+
+...
+
+✅ Saran
+
+...
+"""
 
     return ask_ai(prompt)
 
+# =====================================================
+# WEEKLY PLAN
+# =====================================================
 
-# =========================
-# AI WEEKLY PLAN
-# =========================
-def generate_weekly_plan(goal, fatigue):
+def generate_weekly_plan(goal, readiness_score):
+
     prompt = f"""
-    Anda adalah pelatih MMA profesional.
+Anda adalah pelatih MMA profesional.
 
-    Data Atlet:
-    - Goal: {goal}
-    - Fatigue Score: {fatigue}/100
+Data Atlet
 
-    Tugas:
-    Buat program latihan selama 7 hari.
+Goal : {goal}
 
-    Aturan:
-    - Gunakan Bahasa Indonesia.
-    - Jangan memberi salam.
-    - Setiap hari maksimal 2 kalimat.
-    - Sesuaikan intensitas dengan fatigue.
-    - Jika fatigue tinggi, tambahkan recovery day.
-    - Jika fatigue rendah, boleh meningkatkan intensitas bertahap.
-    - Hindari latihan yang berisiko cedera.
-    - Sertakan latihan teknik MMA, conditioning, dan recovery bila diperlukan.
+Readiness Score : {readiness_score}/100
 
-    Format:
+Buat program latihan selama 7 hari.
 
-    Day 1
-    Fokus:
-    Latihan:
+Aturan
 
-    Day 2
-    Fokus:
-    Latihan:
+- Gunakan Bahasa Indonesia.
+- Jangan memberi salam.
+- Maksimal dua kalimat setiap hari.
+- Sesuaikan intensitas dengan Readiness Score.
+- Jika readiness rendah, tambahkan recovery.
+- Jika readiness tinggi, naikkan intensitas bertahap.
 
-    Day 3
-    Fokus:
-    Latihan:
+Format
 
-    Day 4
-    Fokus:
-    Latihan:
+Day 1
 
-    Day 5
-    Fokus:
-    Latihan:
+Fokus
 
-    Day 6
-    Fokus:
-    Latihan:
+Latihan
 
-    Day 7
-    Fokus:
-    Latihan:
+Day 2
 
-    Kesimpulan:
-    ...
-    """
+...
+
+Day 7
+
+...
+
+Kesimpulan
+
+...
+"""
 
     response = ask_ai(prompt)
+
     return response.split("\n")
 
+# =====================================================
+# RULE BASED BACKUP
+# =====================================================
 
-# =========================
-# RULE-BASED BACKUP COACH
-# =========================
-def generate_coach_response(goal, fatigue, load, sleep, bmi, hr_mean=None):
-    if fatigue > 80:
-        return "⚠️ Overtraining terdeteksi. Prioritaskan recovery dan istirahat."
+def generate_coach_response(
+    goal,
+    training_load,
+    recovery_score,
+    readiness_score,
+    sleep,
+    bmi,
+    hr_mean=None
+):
 
-    if fatigue > 60:
-        return "🔥 Fatigue cukup tinggi. Kurangi volume latihan pada sesi berikutnya."
+    if readiness_score >= 80:
+        return (
+            "🟢 Kondisi tubuh sangat baik. "
+            "Latihan intensitas tinggi masih dapat dilakukan secara bertahap."
+        )
 
-    if fatigue < 40:
-        return "💪 Kondisi cukup baik. Intensitas latihan dapat ditingkatkan secara bertahap."
+    if readiness_score >= 60:
+        return (
+            "🟡 Kondisi tubuh cukup baik. "
+            "Pertahankan volume latihan dan monitor pemulihan."
+        )
 
-    if sleep < 6:
-        return "😴 Durasi tidur rendah. Fokus pada pemulihan dan kualitas tidur."
+    if readiness_score >= 40:
+        return (
+            "🟠 Kesiapan latihan sedang. "
+            "Disarankan mengurangi volume atau intensitas latihan."
+        )
 
-    if goal == "cutting":
-        return "🔥 Fokus pada fat loss, conditioning, dan pengaturan kalori."
+    return (
+        "🔴 Recovery menjadi prioritas utama sebelum kembali menjalani latihan berat."
+    )
 
-    if goal == "bulking":
-        return "🍗 Fokus pada strength training dan hypertrophy."
+# =====================================================
+# RULE BASED PROGRESS
+# =====================================================
 
-    if goal == "maintaining":
-        return "⚖️ Fokus menjaga performa, kebugaran, dan recovery yang seimbang."
-
-    return "🏃 Fokus pada latihan umum dan peningkatan kebugaran."
-
-
-# =========================
-# RULE-BASED BACKUP INSIGHT
-# =========================
 def generate_progress_insight_backup(df):
+
     if df.empty:
         return "Belum ada data."
 
-    avg = df["fatigue"].mean()
+    avg = df["readiness_score"].mean()
 
-    if avg > 70:
-        return "⚠️ Fatigue rata-rata tinggi. Risiko overtraining dan cedera meningkat."
+    if avg >= 80:
+        return (
+            "Kondisi latihan sangat baik. Atlet memiliki kesiapan latihan yang tinggi."
+        )
 
-    return "✅ Progress latihan relatif stabil dan terkendali."
+    if avg >= 60:
+        return (
+            "Kondisi latihan cukup stabil. Pertahankan keseimbangan latihan dan recovery."
+        )
+
+    if avg >= 40:
+        return (
+            "Recovery mulai menurun. Kurangi volume latihan untuk sementara."
+        )
+
+    return (
+        "Recovery rendah. Disarankan meningkatkan waktu istirahat sebelum latihan berikutnya."
+    )
