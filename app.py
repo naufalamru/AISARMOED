@@ -627,33 +627,23 @@ elif menu == "Progress":
     )
 
     st.markdown("---")
-
     st.subheader("📅 Weekly Training Plan")
-
+    
     try:
-
         weekly = generate_weekly_plan(
-
             goal=latest["goal"],
-
+            sport=latest["sport"],           # <--- Tambahkan parameter sport di sini
             training_load=latest["training_load"],
-
             recovery_score=latest["recovery_score"],
-
             readiness_score=latest["readiness_score"]
-
         )
-
-    except:
-
-        weekly = "AI tidak tersedia."
-
+    except Exception as e:
+        # Ubah sementara untuk melihat jika ada error lain
+        weekly = f"AI tidak tersedia. (Detail Error: {e})"
+    
     st.markdown(
-
         f"<div class='card'>{weekly}</div>",
-
         unsafe_allow_html=True
-
     )
 # =====================================================
 # PROFILE
