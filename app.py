@@ -632,19 +632,26 @@ elif menu == "Progress":
     
     try:
     
-        weekly = generate_weekly_plan(
-            goal=latest["goal"],
-            readiness_score=latest["readiness_score"]
-        )
+            weekly = generate_weekly_plan(
     
-    except Exception as e:
+        goal=latest["goal"],
     
-        st.exception(e)
-        weekly = "AI tidak tersedia."
+        sport=latest["sport"],
+    
+        training_load=latest["training_load"],
+    
+        recovery_score=latest["recovery_score"],
+    
+        readiness_score=latest["readiness_score"]
+    
+    )
     
     st.markdown(
+    
         f"<div class='card'>{weekly}</div>",
+    
         unsafe_allow_html=True
+    
     )
 
 # =====================================================
