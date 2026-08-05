@@ -255,7 +255,7 @@ menu=st.sidebar.radio(
 
 index=[
 "Home",
-"Training Plan",
+"Training Analysis",
 "Progress",
 "Profile",
 "Logout"
@@ -341,7 +341,7 @@ Kemudian AI Coach memberikan rekomendasi latihan berikutnya.
             use_container_width=True
         ):
 
-            st.session_state.page="Training Plan"
+            st.session_state.page="Training Analysis"
             st.rerun()
 
 # =====================================================
