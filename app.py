@@ -548,6 +548,20 @@ elif menu == "Progress":
     df["date"] = pd.to_datetime(df["date"])
 
     df = df.sort_values("date")
+    # --- TAMBAHKAN FILTER GOAL DI SINI ---
+    if "goal" in df.columns:
+        # Ambil daftar unik goal yang tersedia untuk user ini, tambahkan opsi "Semua"
+        unique_goals = ["Semua"] + list(df["goal"].dropna().unique())
+        selected_goal = st.selectbox("🎯 Filter berdasarkan Training Goal:", unique_goals)
+        
+        # Terapkan filter jika user memilih goal tertentu
+        if selected_goal != "Semua":
+            df = df[df["goal"] == selected_goal]
+            
+        # Cek lagi apakah DataFrame kosong setelah difilter
+        if df.empty:
+            st.warning(f"Belum ada data progress untuk goal: {selected_goal}")
+            st.stop()
 
     st.subheader("📋 Data Terbaru")
 
