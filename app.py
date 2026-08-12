@@ -307,17 +307,15 @@ menggunakan Large Language Model.
 
 ### Langkah Penggunaan
 
-1. Pilih Goal
+1. Pilih Jenis Latihan
 
-2. Pilih Jenis Latihan
+2. Masukkan Durasi Latihan
 
-3. Masukkan Durasi Latihan
+3. Masukkan Jam Tidur
 
-4. Masukkan Jam Tidur
+4. Masukkan Berat dan Tinggi Badan
 
-5. Masukkan Berat dan Tinggi Badan
-
-6. Klik Generate
+5. Klik Generate
 
 Sistem akan menghasilkan:
 
@@ -326,7 +324,7 @@ Sistem akan menghasilkan:
 - Readiness Score
 - Estimasi Kalori
 - BMI
-- Heart Rate
+- Estimasi Heart Rate
 
 Kemudian AI Coach memberikan rekomendasi latihan berikutnya.
 
@@ -359,11 +357,6 @@ elif menu == "Training Analysis":
     """, unsafe_allow_html=True)
 
     st.caption("Powered by Fitness-Fatigue Model & OpenRouter")
-
-    goal = st.selectbox(
-        "🎯 Goal",
-        ["cutting", "bulking", "maintaining"]
-    )
 
     sport = st.selectbox(
         "🥊 Sport",
@@ -439,7 +432,6 @@ elif menu == "Training Analysis":
 
         result = save_progress({
             "username": user["username"],
-            "goal": goal,
             "sport": sport,
             "training_load": metrics["training_load"],
             "recovery_score": metrics["recovery_score"],
@@ -514,7 +506,6 @@ elif menu == "Training Analysis":
 
         try:
             coach = generate_ai_coach(
-                goal=goal,
                 training_load=metrics["training_load"],
                 recovery_score=metrics["recovery_score"],
                 readiness_score=metrics["readiness_score"],
@@ -549,20 +540,6 @@ elif menu == "Progress":
 
     df = df.sort_values("date")
     # --- TAMBAHKAN FILTER GOAL DI SINI ---
-    if "goal" in df.columns:
-        # Ambil daftar unik goal yang tersedia untuk user ini, tambahkan opsi "Semua"
-        unique_goals = ["Semua"] + list(df["goal"].dropna().unique())
-        selected_goal = st.selectbox("🎯 Filter berdasarkan Training Goal:", unique_goals)
-        
-        # Terapkan filter jika user memilih goal tertentu
-        if selected_goal != "Semua":
-            df = df[df["goal"] == selected_goal]
-            
-        # Cek lagi apakah DataFrame kosong setelah difilter
-        if df.empty:
-            st.warning(f"Belum ada data progress untuk goal: {selected_goal}")
-            st.stop()
-
     st.subheader("📋 Data Terbaru")
 
     st.dataframe(
@@ -661,7 +638,6 @@ elif menu == "Progress":
     
     try:
         weekly = generate_weekly_plan(
-            goal=latest["goal"],
             sport=latest["sport"],           # <--- Tambahkan parameter sport di sini
             training_load=latest["training_load"],
             recovery_score=latest["recovery_score"],
