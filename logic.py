@@ -108,7 +108,7 @@ Format Output yang Harus Ditiru Secara Konsisten (Mulai dari 📈 Progress):
 # TEMPLATE PROGRAM LATIHAN
 # ======================================================
 
-def get_weekly_template(goal, sport):
+def get_weekly_template(sport):
 
     templates = {
 
@@ -204,7 +204,7 @@ def generate_weekly_plan(
     readiness_score
 ):
 
-    template = get_weekly_template(goal, sport)
+    template = get_weekly_template(sport)
 
     template_text = ""
 
