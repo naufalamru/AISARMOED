@@ -131,8 +131,6 @@ def save_progress(data):
 
         "username":data.get("username"),
 
-        "goal":data.get("goal"),
-
         "date":data.get("date"),
 
         "training_load":data.get("training_load"),
@@ -305,18 +303,6 @@ def calculate_training_metrics(
             100
         )
     )
-
-    if goal=="cutting":
-
-        calories*=0.90
-
-    elif goal=="bulking":
-
-        calories*=1.10
-
-    elif goal=="maintaining":
-
-        calories*=1.00
 
     return{
 
