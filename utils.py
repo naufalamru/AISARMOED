@@ -259,13 +259,11 @@ def calculate_training_metrics(
 
     calories = met * weight * (duration / 60)
 
-    hr_mean = 70 + (met * 5)
+    hr_mean = 70 + ((met + 5)/6)
 
-    hr_max = hr_mean + 20
 
     # ===========================================
     # Training Load
-    # Foster (1998)
     # ===========================================
 
     training_load = duration * met
@@ -332,8 +330,7 @@ def calculate_training_metrics(
 
         "bmi":bmi,
 
-        "hr_mean":hr_mean,
+        "hr_mean":hr_mean
 
-        "hr_max":hr_max
 
     }
