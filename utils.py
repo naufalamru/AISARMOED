@@ -197,7 +197,6 @@ def load_progress(username=None):
     return pd.DataFrame(
         columns=[
             "username",
-            "goal",
             "date",
             "training_load",
             "recovery_score",
@@ -217,7 +216,6 @@ def calculate_training_metrics(
     sleep,
     weight,
     height,
-    goal,
     sport
 ):
 
