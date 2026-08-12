@@ -426,7 +426,6 @@ elif menu == "Training Analysis":
             sleep=sleep,
             weight=weight,
             height=height,
-            goal=goal,
             sport=sport
         )
 
@@ -539,7 +538,6 @@ elif menu == "Progress":
     df["date"] = pd.to_datetime(df["date"])
 
     df = df.sort_values("date")
-    # --- TAMBAHKAN FILTER GOAL DI SINI ---
     st.subheader("📋 Data Terbaru")
 
     st.dataframe(
