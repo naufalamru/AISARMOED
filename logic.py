@@ -5,7 +5,6 @@ from ai_service import ask_ai
 # =====================================================
 
 def generate_ai_coach(
-    goal,
     training_load,
     recovery_score,
     readiness_score,
@@ -19,7 +18,6 @@ Anda adalah pelatih Strength & Conditioning MMA profesional.
 
 Data Atlet
 
-- Goal : {goal}
 - Training Load : {training_load:.2f}
 - Recovery Score : {recovery_score:.2f}/100
 - Readiness Score : {readiness_score:.2f}/100
@@ -72,8 +70,6 @@ def generate_progress_insight(df):
 Anda adalah Performance Analyst atlet MMA.
 
 Data Terakhir
-
-Goal : {latest['goal']}
 
 Training Load : {latest['training_load']}
 
@@ -199,20 +195,9 @@ def get_weekly_template(goal, sport):
 
     template = templates.get(sport, templates["mma"])
 
-    if goal == "cutting":
-
-        template[5] = ("Sabtu","Cardio Endurance")
-
-    elif goal == "bulking":
-
-        template[1] = ("Selasa","Heavy Strength")
-
-        template[5] = ("Sabtu","Hypertrophy")
-
     return template
 
 def generate_weekly_plan(
-    goal,
     sport,
     training_load,
     recovery_score,
@@ -236,8 +221,6 @@ Fokus : {focus}
 Anda adalah pelatih Strength & Conditioning MMA profesional.
 
 Data Atlet
-
-Goal : {goal}
 
 Jenis Latihan : {sport}
 
@@ -307,7 +290,6 @@ Berikan evaluasi singkat terhadap program latihan minggu ini.
 # =====================================================
 
 def generate_coach_response(
-    goal,
     training_load,
     recovery_score,
     readiness_score,
