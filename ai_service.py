@@ -47,7 +47,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "google/gemma-4-26b-a4b-it:free",
+        "model": "heygen/heygen-voice-1-turbo:free",
         "messages": [
             {
                 "role": "system",
