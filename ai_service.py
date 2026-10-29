@@ -47,7 +47,7 @@ def ask_ai(prompt):
     }
 
     payload = {
-        "model": "heygen/heygen-voice-1-turbo:free",
+        "model": "recursive/flint-v1.0:free",
         "messages": [
             {
                 "role": "system",
